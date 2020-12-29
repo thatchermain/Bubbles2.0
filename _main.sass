@@ -1,0 +1,25 @@
+*
+    margin: 0
+    padding: 0
+    box-sizing: border-box
+
+body
+    background-color: #0b0433
+    overflow: hidden
+    font-family: sans-serif
+
+#container 
+    position: relative
+    left: -15vw
+    height: 100vh
+    width: 120vw
+
+.active
+    position: absolute
+    animation: rain 5s ease infinite
+
+@keyframes rain
+    50%
+        filter: hue-rotate(720deg)
+    100%   
+        top: -100%
