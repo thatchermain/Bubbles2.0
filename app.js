@@ -2,25 +2,18 @@ const container = document.querySelector('#container');
 const userInput = document.querySelector('.form__input');
 const userBtn = document.querySelector('.form__button');
 const userResetBtn = document.querySelector('.form__reset');
-let bubblesArr = [];
-    
-function getNumber(bubblesArr) {
-    userBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        for (let i = 0; i < userInput.value; i++) {
-            bubblesArr.push(i);
-            userBtn.style.display = 'none';
-            userInput.style.pointerEvents = 'none'
-        }
-    });
-}
+const timeShowBubble = 1500;
 
-userResetBtn.addEventListener('click', () => {
-    userInput.value = '';
-    bubblesArr =[];
-})
+const getNumber = (e) => {
+    e.preventDefault();
+    const bubbles = Number(userInput.value);
+    userBtn.style.display = 'none';
+    userInput.style.pointerEvents = 'none'
+    drawBubbles(bubbles);
+};
 
-function createBubble(x, y) {
+
+const createBubble = (x, y) => {
     console.log('Bubble');
     let span = document.createElement('span');
     span.style.top = y + 'px';
@@ -34,23 +27,21 @@ function createBubble(x, y) {
     span.style.border = `${borderRadius} solid ${color}`;
     span.classList.add('active');
     container.appendChild(span);
-    setTimeout(() => {
-        container.removeChild(span);
-    }, 1500);
-}
 
-function drawBubbles() {
-    for (let i = 0; i < bubblesArr.length; i++) {
-        container.addEventListener('mousemove', (e) => {
+    setTimeout(() => container.removeChild(span), timeShowBubble);
+};
+
+
+const drawBubbles = (bubbles) => {
+    container.addEventListener('mousemove', (e) => {
+        for (let i = 0; i < bubbles; i++) {
             let x = e.offsetX;
             let y = e.offsetY;
             createBubble(x, y);
-        });
-    }
-}
+        }
+    });
+};
 
-getNumber(bubblesArr);
-container.addEventListener('click', () => {
-    drawBubbles()
-})
- 
+
+userBtn.addEventListener('click', getNumber);
+userResetBtn.addEventListener('click', () => (userInput.value = ''));
