@@ -3,15 +3,20 @@ const userInput = document.querySelector('.form__input');
 const userBtn = document.querySelector('.form__button');
 const userResetBtn = document.querySelector('.form__reset');
 const timeShowBubble = 1500;
+const checkDevice = (window.navigator.userAgent).split(' ');
 
 const getNumber = (e) => {
     e.preventDefault();
-    const bubbles = Number(userInput.value);
+    let bubbles = Number(userInput.value);
+    if (bubbles > 7) {
+        alert('For the sake of a browser, max number of bubbles is 7.');
+        userInput.value = '7';
+        bubbles = 7;
+    }
     userBtn.style.display = 'none';
-    userInput.style.pointerEvents = 'none'
+    userInput.style.pointerEvents = 'none';
     drawBubbles(bubbles);
 };
-
 
 const createBubble = (x, y) => {
     console.log('Bubble');
@@ -31,15 +36,24 @@ const createBubble = (x, y) => {
     setTimeout(() => container.removeChild(span), timeShowBubble);
 };
 
-
 const drawBubbles = (bubbles) => {
-    container.addEventListener('mousemove', (e) => {
-        for (let i = 0; i < bubbles; i++) {
-            let x = e.offsetX;
-            let y = e.offsetY;
-            createBubble(x, y);
-        }
-    });
+    if (checkDevice.includes('Mobile')) {
+        container.addEventListener('click', (e) => {
+            for (let i = 0; i < bubbles; i++) {
+                let x = e.offsetX;
+                let y = e.offsetY;
+                createBubble(x, y);
+            };
+        });
+    } else {
+        container.addEventListener('mousemove', (e) => {
+            for (let i = 0; i < bubbles; i++) {
+                let x = e.offsetX;
+                let y = e.offsetY;
+                createBubble(x, y);
+            };
+        });
+    };
 };
 
 
