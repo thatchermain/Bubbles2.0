@@ -4,14 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bubbles</title>
+    <title>Bubbles 2.0</title>
     <link rel="stylesheet" href="./css/style.css">
 </head> 
 <body>
 
-    <form action="">
-        <label for="No. of bubbles">Number of bubbles</label>
-        <input type="text" class='form__input' maxlength="3">
+    <form action="" class="form">
+        <label class="form__label" for="number">Number of bubbles</label>
+        <input type="number" class='form__input' minlength="0" maxlength="3">
         <button class='form__button'>Generate</button>
         <button class='form__reset'>Reset</button>
     </form>
