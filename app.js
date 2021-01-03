@@ -5,6 +5,11 @@ const userResetBtn = document.querySelector('.form__reset');
 const timeShowBubble = 1500;
 const checkDevice = (window.navigator.userAgent).split(' ');
 
+const hideGenerateBtn = () => {
+    userBtn.style.display = 'none';
+    userInput.style.pointerEvents = 'none'; 
+}
+
 const getNumber = (e) => {
     e.preventDefault();
     let bubbles = Number(userInput.value);
@@ -12,14 +17,18 @@ const getNumber = (e) => {
         alert('For the sake of a browser, max number of bubbles is 7.');
         userInput.value = '7';
         bubbles = 7;
-    }
-    userBtn.style.display = 'none';
-    userInput.style.pointerEvents = 'none';
+        hideGenerateBtn();
+    }else if(bubbles < 1){
+        alert('At least one bubble is required.');
+        userInput.value = '1';
+        bubbles = 1;
+        hideGenerateBtn();
+    }else 
+    hideGenerateBtn();
     drawBubbles(bubbles);
 };
 
 const createBubble = (x, y) => {
-    console.log('Bubble');
     let span = document.createElement('span');
     span.style.top = y + 'px';
     span.style.left = x + 'px';
@@ -32,30 +41,28 @@ const createBubble = (x, y) => {
     span.style.border = `${borderRadius} solid ${color}`;
     span.classList.add('active');
     container.appendChild(span);
-
     setTimeout(() => container.removeChild(span), timeShowBubble);
+};
+
+const draw = (e,bubbles) => {
+        for (let i = 0; i < bubbles; i++) {
+            let x = e.offsetX;
+            let y = e.offsetY;
+            createBubble(x, y);
+        };
 };
 
 const drawBubbles = (bubbles) => {
     if (checkDevice.includes('Mobile')) {
         container.addEventListener('click', (e) => {
-            for (let i = 0; i < bubbles; i++) {
-                let x = e.offsetX;
-                let y = e.offsetY;
-                createBubble(x, y);
-            };
-        });
+            draw(bubbles);
+    });
     } else {
         container.addEventListener('mousemove', (e) => {
-            for (let i = 0; i < bubbles; i++) {
-                let x = e.offsetX;
-                let y = e.offsetY;
-                createBubble(x, y);
-            };
-        });
-    };
+            draw(e,bubbles);
+    });
 };
-
+};
 
 userBtn.addEventListener('click', getNumber);
 userResetBtn.addEventListener('click', () => (userInput.value = ''));
